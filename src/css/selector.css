@@ -1,0 +1,26 @@
+
+.size-selector{
+    display: flex;
+    
+}
+
+.size{
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    height: 10px;
+    width: 400px;
+    margin-top: 15px;
+    margin-bottom: 45px;
+}
+
+
+@media screen and (max-width: 860px) {
+    .size-selector{
+        display: flow-root;
+    }
+
+    .size{
+        width: 300px;
+    }
+}
