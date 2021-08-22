@@ -5,9 +5,15 @@ const Square = ({ square }) => {
     const { entryIsOpen, setEntry,
         exitIsOpen, setExit,
         wallIsOpen, setWall,
-        cleanIsOpen, cleanSquare
+        cleanIsOpen, cleanSquare,
+        visited,
+        path
     } = useGlobalContext();
-    
+
+    const x = square[0];
+    const y = square[1];
+    const z = square[2];
+
     const handleClick = (action) => {
         if (entryIsOpen) {
             setEntry({ x: action[0], y: action[1] })
@@ -25,9 +31,16 @@ const Square = ({ square }) => {
 
     return (
         <button className={`square 
-        ${square[2] === 'S' ? 'entry' :
-                (square[2] === 'E' ? 'exit' :
-                    (square[2] === '#' ? 'wall' : null))}`}
+        ${z === 'S' ? 'entry' :
+                (z === 'E' ? 'exit' :
+                    (z === '#' ? 'wall' :
+                        (z === 'P' ? 'way' : (visited[x][y] === true ? 'visited' : null
+                        ))
+
+                    )
+                )
+            }`
+        }
             onClick={() => handleClick(square)}>
         </button>
     );

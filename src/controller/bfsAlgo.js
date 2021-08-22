@@ -11,17 +11,15 @@ const bfsAlgo = (maze, visited, path, start, end, n, m) => {
     visited[start.x][start.y] = true;
     queue.push(start);
 
-
     while (!(queue.lenght === 0)) {
         let current = queue.shift();
-        // console.log(current, current.x === end.x && current.y === end.y)
-
+        
         if (current === undefined) { break; }
+        // console.log(current, current.x  === end.x && current.y === end.y)
         if (current.x === end.x && current.y === end.y) {
             reached_end = true;
             break;
         }
-
 
         for (let i = 0; i < 4; ++i) {
             let xx = current.x + dx[i];
@@ -30,7 +28,7 @@ const bfsAlgo = (maze, visited, path, start, end, n, m) => {
             if (xx < 0 || yy < 0) { continue; }
             if (xx >= n || yy >= m) { continue; }
             if (visited[xx][yy] === true) { continue; }
-            if (maze[xx][yy] === '#') { continue; }
+            if (maze[xx][yy][2] === '#') { continue; }
 
             queue.push({ x: xx, y: yy });
             visited[xx][yy] = true;
@@ -66,44 +64,17 @@ const reconstructPath = (end, start, prev, n) => {
 }
 
 
-const Board = () => {
-    const row = 5;
-    const col = 5;
-    let start = { x: 2, y: 1 };
-    let end = { x: 2, y: 3 };
-
-    const grid = [];
-    const path = [];
-    const visited = [];
-    for (let i = 0; i < row; i++) {
-        const currentRow = [];
-        const currentRowPath = [];
-        const currentRowVisited = [];
-        for (let j = 0; j < col; j++) {
-            currentRow.push('');
-            currentRowPath.push('');
-            currentRowVisited.push(false);
-        }
-        grid.push(currentRow);
-        path.push(currentRowPath);
-        visited.push(currentRowVisited);
-    }
-
-    grid[2][1] = 'E';
-    grid[1][1] = '#';
-    grid[1][2] = '#';
-    grid[1][4] = '#';
-    grid[2][2] = '#';
-    grid[3][3] = '#';
-    grid[4][1] = '#';
-    grid[2][3] = 'S';
-
+const board = (row, col, start, end, grid, visited, path) => {
     let result = bfsAlgo(grid, visited, path, start, end, row, col);
+    
     if (result !== -1) {
         let way = reconstructPath(end, start, path, result)
-        console.log(way)
+        return {
+            result: result,
+            way:way
+        }
     }
+    return result;
 }
 
-Board();
-
+export default board;

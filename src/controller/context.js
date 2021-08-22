@@ -16,6 +16,7 @@ const initialState = {
     wallIsOpen: false,
     cleanIsOpen: false,
     searchIsOpen: false,
+    moveCount: 0
 };
 
 
@@ -70,11 +71,9 @@ const AppProvider = ({ children }) => {
         dispatch({ type: 'GENERATE_GRIDS' });
     }
 
-    const setSearch = () => {
-        dispatch({ type: 'SEARCH_PATH' });
-    }
-
     const generateRandom = () => {
+        resetBoard();
+
         const { row, col } = state;
         dispatch({ type: 'GENERATE_RANDOM' });
 
@@ -92,6 +91,10 @@ const AppProvider = ({ children }) => {
 
         dispatch({ type: 'SET_EXIT', payload: { x: x1, y: y1 } });
 
+    }
+
+    const setSearch = () => {
+        dispatch({ type: 'SEARCH_PATH' });
     }
 
     return (

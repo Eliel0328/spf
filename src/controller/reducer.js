@@ -1,3 +1,4 @@
+import board from './bfsAlgo'
 
 const reducer = (state, action) => {
     if (action.type === 'RESIZE_X') {
@@ -128,12 +129,6 @@ const reducer = (state, action) => {
             ...state,
         }
     }
-    if (action.type === 'SEARCH_PATH') {
-        return {
-            ...state,
-            searchIsOpen: true
-        }
-    }
     if (action.type === 'GENERATE_RANDOM') {
         const { row, col } = state;
         for (let i = 0; i < row; i++) {
@@ -152,7 +147,30 @@ const reducer = (state, action) => {
             searchIsOpen: false
         }
     }
+    if (action.type === 'SEARCH_PATH') {
+        let aux;
+        let newWay = null;
+        const { row, col, entry, exit, grid, visited, path } = state;
 
+        if (entry && exit) {
+            aux = board(row, col, entry, exit, grid, visited, path);
+            if (aux !== -1) {
+                newWay = aux.way;
+                
+                for(let i = 1; i < newWay.length - 1; ++i){
+                    let element = newWay[i];
+                    state.grid[element.x][element.y][2] = 'P';
+                }
+            }
+        }
+
+        return {
+            ...state,
+            searchIsOpen: true,
+            moveCount: aux,
+            path: newWay,
+        }
+    }    
     throw new Error('no matching action type')
 }
 

@@ -19,6 +19,18 @@
     transition-delay: 0.05s;
 }
 
+.visited{
+    background-color: rgb(218, 213, 213);
+    transition-delay: 0.5s;
+    transition-duration: 50ms;
+}
+
+.way{
+    background-color: rgb(213, 224, 46);
+    transition-delay: 0.5s;
+    transition-duration: 50ms;
+}
+
 .entry {
     background-color: hsl(221, 95%, 61%);
     transition-delay: 0.25s;

@@ -4,7 +4,7 @@ import "../css/board.css";
 
 
 const Board = () => {
-    const { grid, entry } = useGlobalContext();
+    const { grid } = useGlobalContext();
     return (
         <div className="board">
             {grid.map((row, index) => {

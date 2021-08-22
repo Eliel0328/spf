@@ -14,9 +14,9 @@ const bfsAlgo = (maze, visited, path, start, end, n, m) => {
 
     while (!(queue.lenght === 0)) {
         let current = queue.shift();
-        // console.log(current, current.x === end.x && current.y === end.y)
-
+        
         if (current === undefined) { break; }
+        console.log(current, current.x === end.x && current.y === end.y)
         if (current.x === end.x && current.y === end.y) {
             reached_end = true;
             break;
@@ -69,8 +69,8 @@ const reconstructPath = (end, start, prev, n) => {
 const Board = () => {
     const row = 5;
     const col = 5;
-    let start = { x: 2, y: 1 };
-    let end = { x: 2, y: 3 };
+    let start = { x: 0, y: 3 };
+    let end = { x: 4, y: 1 };
 
     const grid = [];
     const path = [];
@@ -80,7 +80,7 @@ const Board = () => {
         const currentRowPath = [];
         const currentRowVisited = [];
         for (let j = 0; j < col; j++) {
-            currentRow.push('');
+            currentRow.push(' ');
             currentRowPath.push('');
             currentRowVisited.push(false);
         }
@@ -89,18 +89,32 @@ const Board = () => {
         visited.push(currentRowVisited);
     }
 
-    grid[2][1] = 'E';
-    grid[1][1] = '#';
-    grid[1][2] = '#';
+    grid[0][3] = 'S';
+    grid[4][1] = 'E';
+    
+    grid[0][1] = '#';
+    grid[0][2] = '#';
+    grid[1][0] = '#';
     grid[1][4] = '#';
-    grid[2][2] = '#';
+    grid[2][0] = '#';
+    grid[2][3] = '#';
     grid[3][3] = '#';
-    grid[4][1] = '#';
-    grid[2][3] = 'S';
-
+    grid[4][3] = '#';
+    grid[4][2] = '#';
+    grid[4][0] = '#';
+    
+    console.log(grid);
+    
     let result = bfsAlgo(grid, visited, path, start, end, row, col);
     if (result !== -1) {
         let way = reconstructPath(end, start, path, result)
+        
+        for(let i = 0; i < way.length; ++i){
+            let element = way[i];
+            grid[element.x][element.y] = 'P';
+        }
+
+        console.log(grid);
         console.log(way)
     }
 }
