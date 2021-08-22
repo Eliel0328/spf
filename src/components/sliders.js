@@ -136,6 +136,8 @@ const Sliders = () => {
                                 onChange={handleSliderChangeRow}
                                 aria-labelledby="input-slider"
                                 valueLabelDisplay="auto"
+                                max={60}
+                                step={1}
                             />
                         </Grid>
 
@@ -155,6 +157,8 @@ const Sliders = () => {
                                 onChange={handleSliderChangeCol}
                                 aria-labelledby="input-slider"
                                 valueLabelDisplay="auto"
+                                max={60}
+                                step={1}
                             />
                         </Grid>
                     </Grid>

@@ -1,4 +1,5 @@
 import React, { useState, useContext, useReducer, useEffect } from 'react'
+import reducer from './reducer'
 
 const AppContext = React.createContext();
 
@@ -14,49 +15,9 @@ const initialState = {
     exitIsOpen: false,
     wallIsOpen: false,
     cleanIsOpen: false,
+    searchIsOpen: false,
 };
 
-
-const reducer = (state, action) => {
-    if (action.type === 'RESIZE_X') {
-        return {
-            ...state,
-            col: action.payload,
-        }
-    }
-    if (action.type === 'RESIZE_Y') {
-        return {
-            ...state,
-            row: action.payload
-        }
-    }
-    if (action.type === 'GENERATE_GRIDS') {
-        const {row, col} = state;
-        const grid = [];
-        const path = [];
-        const visited = [];
-        for (let i = 0; i < row; i++) {
-            const currentRow = [];
-            const currentRowPath = [];
-            const currentRowVisited = [];
-            for (let j = 0; j < col; j++) {
-                currentRow.push('');
-                currentRowPath.push('');
-                currentRowVisited.push(false);
-            }
-            grid.push(currentRow);
-            path.push(currentRowPath);
-            visited.push(currentRowVisited);
-        }
-
-        return {
-            ...state,
-            grid: grid,
-            path: path,
-            visited: visited
-        }
-    }
-}
 
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -73,12 +34,83 @@ const AppProvider = ({ children }) => {
         dispatch({ type: 'GENERATE_GRIDS' });
     }, [state.col, state.row]);
 
+    const entryButtonIsOpen = () => {
+        dispatch({ type: 'ENTRY_IS_OPEN' });
+    }
+
+    const exitButtonIsOpen = () => {
+        dispatch({ type: 'EXIT_IS_OPEN' });
+    }
+
+    const wallButtonIsOpen = () => {
+        dispatch({ type: 'WALL_IS_OPEN' });
+    }
+
+    const cleanButtonIsOpen = () => {
+        dispatch({ type: 'CLEAN_IS_OPEN' });
+    }
+
+    const setEntry = (newEntry) => {
+        dispatch({ type: 'SET_ENTRY', payload: newEntry });
+    }
+
+    const setExit = (newExit) => {
+        dispatch({ type: 'SET_EXIT', payload: newExit });
+    }
+
+    const setWall = (newWall) => {
+        dispatch({ type: 'SET_WALL', payload: newWall });
+    }
+
+    const cleanSquare = (newWall) => {
+        dispatch({ type: 'CLEAN_SQUARE', payload: newWall });
+    }
+
+    const resetBoard = () => {
+        dispatch({ type: 'GENERATE_GRIDS' });
+    }
+
+    const setSearch = () => {
+        dispatch({ type: 'SEARCH_PATH' });
+    }
+
+    const generateRandom = () => {
+        const { row, col } = state;
+        dispatch({ type: 'GENERATE_RANDOM' });
+
+        let x = Math.round((row - 1) * Math.random());
+        let y = Math.round((col - 1) * Math.random());
+        dispatch({ type: 'SET_ENTRY', payload: { x: x, y: y } });
+
+        let x1;
+        let y1;
+
+        do {
+            x1 = Math.round((row - 1) * Math.random());
+            y1 = Math.round((col - 1) * Math.random());
+        } while (x === x1 && y === y1);
+
+        dispatch({ type: 'SET_EXIT', payload: { x: x1, y: y1 } });
+
+    }
+
     return (
         <AppContext.Provider
             value={{
                 ...state,
                 resizeCol,
-                resizeRow
+                resizeRow,
+                entryButtonIsOpen,
+                exitButtonIsOpen,
+                wallButtonIsOpen,
+                cleanButtonIsOpen,
+                setEntry,
+                setExit,
+                setWall,
+                cleanSquare,
+                resetBoard,
+                setSearch,
+                generateRandom
             }}>{children}
         </AppContext.Provider>
     )

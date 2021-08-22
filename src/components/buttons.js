@@ -3,6 +3,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import '../css/buttons.css'
 
+import { useGlobalContext } from "../controller/context";
 
 const EntryButton = withStyles((theme) => ({
     root: {
@@ -81,40 +82,83 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: '#fff',
         },
     },
+    activeEntry: {
+        backgroundColor: '#fff',
+        border: 'solid 1px #86bfee',
+    },
+    activeExit: {
+        backgroundColor: '#fff',
+        border: 'solid 1px #1bca27',
+    },
+    activeWall: {
+        backgroundColor: '#fff',
+        border: 'solid 1px #d34d63',
+    },
+    activeClean: {
+        backgroundColor: '#fff',
+        border: 'solid 1px rgb(187, 181, 181)',
+    }
 }));
 
 const Buttons = () => {
     const classes = useStyles();
+    const { entryButtonIsOpen, entryIsOpen,
+        exitButtonIsOpen, exitIsOpen,
+        wallButtonIsOpen, wallIsOpen,
+        cleanButtonIsOpen, cleanIsOpen,
+        resetBoard,
+        searchIsOpen, setSearch,
+        generateRandom
+    } = useGlobalContext();
     return (
         <div className="btns">
             <div className="btnsPart1">
-                <EntryButton variant="contained" color="primary" className={classes.margin}>
+                <EntryButton variant="contained" color="primary"
+                    disabled={searchIsOpen}
+                    className={`${classes.margin} ${entryIsOpen ? classes.activeEntry : null}`}
+                    onClick={entryButtonIsOpen}>
                     Entrada
                 </EntryButton>
 
-                <ExitButton variant="contained" color="primary" className={classes.margin}>
+                <ExitButton variant="contained" color="primary"
+                    disabled={searchIsOpen}
+                    className={`${classes.margin} ${exitIsOpen ? classes.activeExit : null}`}
+                    onClick={exitButtonIsOpen}>
                     Salida
                 </ExitButton>
 
-                <WallButton variant="contained" color="primary" className={classes.margin}>
+                <WallButton variant="contained" color="primary"
+                    disabled={searchIsOpen}
+                    className={`${classes.margin} ${wallIsOpen ? classes.activeWall : null}`}
+                    onClick={wallButtonIsOpen}>
                     Muro
                 </WallButton>
             </div>
             <div className="btnsPart2">
-                <SearchButton variant="contained" color="primary" className={classes.margin}>
+                <SearchButton variant="contained" color="primary"
+                    disabled={searchIsOpen}
+                    className={classes.margin}
+                    onClick={setSearch}>
                     Buscar
                 </SearchButton>
             </div>
             <div className="btnsPart3">
-                <ClearButton variant="contained" color="primary" className={classes.margin}>
+                <ClearButton variant="contained" color="primary"
+                    disabled={searchIsOpen}
+                    className={`${classes.margin} ${cleanIsOpen ? classes.activeClean : null}`}
+                    onClick={cleanButtonIsOpen}>
                     Limpiar
                 </ClearButton>
 
-                <ResetButton variant="contained" color="primary" className={classes.margin}>
+                <ResetButton variant="contained" color="primary"
+                    className={classes.margin}
+                    onClick={resetBoard}>
                     Reiniciar
                 </ResetButton>
 
-                <RandomButton variant="contained" color="primary" className={classes.margin}>
+                <RandomButton variant="contained" color="primary"
+                    className={classes.margin}
+                    onClick={generateRandom}>
                     Generar
                 </RandomButton>
             </div>

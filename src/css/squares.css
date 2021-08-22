@@ -1,0 +1,44 @@
+.square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 25px;
+    margin-right: 1px;
+    margin-top: 1px;
+    padding: 0;
+    text-align: center;
+    width: 25px;
+}
+
+.square:hover {
+    border: 1.5px solid black;
+    background-color: rgb(218, 213, 213);
+    transition-delay: 0.05s;
+}
+
+.entry {
+    background-color: hsl(221, 95%, 61%);
+    transition-delay: 0.25s;
+}
+.entry:hover {
+    background-color: #91adeb;
+}
+
+.exit {
+    background-color: #4DB053;
+    transition-delay: 0.25s;
+}
+.exit:hover {
+    background-color: #87e98e;
+}
+
+.wall {
+    background-color: #F83F37;
+    transition-delay: 0.25s; 
+}
+.wall:hover {
+    background-color: #e69996;
+}

@@ -1,30 +1,22 @@
 import { useGlobalContext } from "../controller/context";
+import Square from './squares'
 import "../css/board.css";
 
 
 const Board = () => {
-    const {grid} = useGlobalContext();
+    const { grid, entry } = useGlobalContext();
     return (
         <div className="board">
-            {
-                grid.map((row, index) => {
-                    return (
-                        <div className="board-row" key={index}>
-                            {row.map((square, indexS) => {
-                                return <Square key={indexS}></Square>
-                            })}
-                        </div>
-                    );
-                })
-            }
+            {grid.map((row, index) => {
+                return (
+                    <div className="board-row" key={index}>
+                        {row.map((square, indexS) => {
+                            return <Square key={indexS} square={square}></Square>
+                        })}
+                    </div>
+                );
+            })}
         </div>
-    );
-}
-
-const Square = () => {
-    return (
-        <button className="square">
-        </button>
     );
 }
 
