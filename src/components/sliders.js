@@ -6,7 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
-import '../css/selector.css'
+import '../css/sliders.css'
+
+import { useGlobalContext } from '../controller/context'
 
 //  Caracteristicas especias de los slider(modificando Material UI)
 const PrettoSlider = withStyles({
@@ -40,7 +42,9 @@ const PrettoSlider = withStyles({
 })(Slider);
 
 //  Componentes en los que estan incrustrados los sliders para las filas y columnas
-const Sliders = ({ row_col, setRow_Col }) => {
+const Sliders = () => {
+    const {resizeCol, resizeRow} = useGlobalContext();
+
     //  Variables para asignar los valores a las filas y columnas
     const [row, setRow] = useState(5);
     const [col, setCol] = useState(5);
@@ -51,6 +55,8 @@ const Sliders = ({ row_col, setRow_Col }) => {
     // Reasignar tamaño en el Y
     const checkSizeY = () => {
         setSizeY(window.innerHeight);
+        let aux = Math.floor(sizeY / 34);
+        resizeBoard(col, aux, 'Y');
     };
 
     // Monitorizar el tamaño en el Y
@@ -63,22 +69,15 @@ const Sliders = ({ row_col, setRow_Col }) => {
 
     // Cambiar el valor para las filas y verificar las posibles
     const handleSliderChangeRow = (event, newValue) => {
-        let aux = Math.floor(sizeY / 37);
-
-        if (newValue < 5) {
-            setRow(5);
-        } else if (newValue > aux) {
-            setRow(aux);
-        } else {
-            setRow(newValue);
-        }
-        
-        setRow_Col({ ...row_col, row: row })
+        let aux = Math.floor(sizeY / 34);
+        resizeBoard(newValue, aux, 'Y');
     };
 
     // Reasignar tamaño en el X
     const checkSizeX = () => {
         setSizeX(window.innerWidth);
+        let aux = Math.floor(sizeX / 27);
+        resizeBoard(col, aux, 'X');
     };
 
     // Monitorizar el tamaño en el X
@@ -92,17 +91,34 @@ const Sliders = ({ row_col, setRow_Col }) => {
     // Cambiar el valor para las columnas y verificar las posibles
     const handleSliderChangeCol = (event, newValue) => {
         let aux = Math.floor(sizeX / 27);
-        
-        if (newValue < 5) {
-            setCol(5);
-        } else if (newValue > aux) {
-            setCol(aux);
-        } else {
-            setCol(newValue);
-        }
-      
-        setRow_Col({ ...row_col, col: col })
+        resizeBoard(newValue, aux, 'X');
     };
+
+    //  Reasignar el valor de tablero
+    const resizeBoard = (newValue, maxSize, axis) => {
+        if (axis === 'X') {
+            if (newValue < 5) {
+                setCol(5);
+            } else if (newValue > maxSize) {
+                setCol(maxSize);
+            } else {
+                setCol(newValue);
+            }
+
+            resizeCol(col)
+
+        } else if (axis === 'Y') {
+            if (newValue < 5) {
+                setRow(5);
+            } else if (newValue > maxSize) {
+                setRow(maxSize);
+            } else {
+                setRow(newValue);
+            }
+
+            resizeRow(row)
+        }
+    }
 
     //  Retorno de componentes
     return (

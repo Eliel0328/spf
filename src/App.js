@@ -1,11 +1,14 @@
 import './css/App.css'
 import Sliders from './components/sliders'
 import Board from './components/boards'
-import Prueba from './components/Prueba'
-import { useState } from 'react';
+import Buttons from './components/buttons'
+// import Prueba from './components/Prueba'
+
+import {useGlobalContext} from './controller/context'
+
 
 function App() {
-    const [row_col, setRow_Col] = useState({ row: 5, col: 5 });
+    // const {row, col} = useGlobalContext();
 
     return (
         <div className="App">
@@ -13,11 +16,12 @@ function App() {
                 Shortest Path Finder
             </div>
             <div className="selectors">
-                <Sliders row_col={row_col} setRow_Col={setRow_Col}></Sliders>
+                <Sliders></Sliders>
+                <Buttons></Buttons>
                 {/* <Prueba></Prueba> */}
             </div>
             <div className="board">
-                <Board row_col={row_col}></Board>
+                <Board></Board>
             </div>
         </div>
     );

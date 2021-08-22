@@ -1,18 +1,9 @@
+import { useGlobalContext } from "../controller/context";
 import "../css/board.css";
 
 
-const Board = ({ row_col }) => {
-    const { row, col } = row_col;
-
-    const grid = [];
-    for (let i = 0; i < row; i++) {
-        const currentRow = [];
-        for (let j = 0; j < col; j++) {
-            currentRow.push([i, j]);
-        }
-        grid.push(currentRow);
-    }
-
+const Board = () => {
+    const {grid} = useGlobalContext();
     return (
         <div className="board">
             {

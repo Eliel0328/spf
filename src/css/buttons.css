@@ -1,0 +1,34 @@
+.btns{
+    display: flex;
+    margin: 10px;
+}
+
+.btnsPart1{
+    margin-left: 0; 
+    margin-right: auto;
+}
+
+.btnsPart2{
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.btnsPart3{
+    margin-left: auto; 
+    margin-right: 0;
+}
+
+@media screen and (max-width: 860px) {
+    .btns{
+        display: table;
+        margin: 10px;
+        margin-left: auto; 
+        margin-right: auto;
+    }
+    
+    .btnsPart2{
+        margin-left: 95px; 
+        margin-right: auto;
+    }
+}
+
