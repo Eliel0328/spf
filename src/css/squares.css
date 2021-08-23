@@ -31,6 +31,10 @@
     transition-duration: 50ms;
 }
 
+.way:hover{
+    background-color: #eaf17a;
+}
+
 .entry {
     background-color: hsl(221, 95%, 61%);
     transition-delay: 0.25s;
