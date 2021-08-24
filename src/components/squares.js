@@ -7,7 +7,6 @@ const Square = ({ square }) => {
         wallIsOpen, setWall,
         cleanIsOpen, cleanSquare,
         visited,
-        path
     } = useGlobalContext();
 
     const x = square[0];

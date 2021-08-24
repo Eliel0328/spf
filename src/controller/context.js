@@ -1,5 +1,7 @@
-import React, { useState, useContext, useReducer, useEffect } from 'react'
+import React, { useContext, useReducer, useEffect } from 'react'
 import reducer from './reducer'
+import { useSnackbar } from 'notistack';
+import Grow from '@material-ui/core/Grow';
 
 const AppContext = React.createContext();
 
@@ -19,9 +21,9 @@ const initialState = {
     moveCount: 0
 };
 
-
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const { enqueueSnackbar } = useSnackbar();
 
     const resizeCol = (col) => {
         dispatch({ type: 'RESIZE_X', payload: col });
@@ -37,18 +39,54 @@ const AppProvider = ({ children }) => {
 
     const entryButtonIsOpen = () => {
         dispatch({ type: 'ENTRY_IS_OPEN' });
+        enqueueSnackbar(`Seleccionar entrada`, {
+            preventDuplicate: true,
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'left',
+            },
+            autoHideDuration: 3000,
+            TransitionComponent: Grow,
+        });
     }
 
     const exitButtonIsOpen = () => {
         dispatch({ type: 'EXIT_IS_OPEN' });
+        enqueueSnackbar(`Seleccionar salida`, {
+            preventDuplicate: true,
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'left',
+            },
+            autoHideDuration: 3000,
+            TransitionComponent: Grow,
+        });
     }
 
     const wallButtonIsOpen = () => {
         dispatch({ type: 'WALL_IS_OPEN' });
+        enqueueSnackbar(`Seleccionar muros`, {
+            preventDuplicate: true,
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'left',
+            },
+            autoHideDuration: 3000,
+            TransitionComponent: Grow,
+        });
     }
 
     const cleanButtonIsOpen = () => {
         dispatch({ type: 'CLEAN_IS_OPEN' });
+        enqueueSnackbar(`Seleccionar elemento a eliminar`, {
+            preventDuplicate: true,
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'left',
+            },
+            autoHideDuration: 3000,
+            TransitionComponent: Grow,
+        });
     }
 
     const setEntry = (newEntry) => {
@@ -67,12 +105,23 @@ const AppProvider = ({ children }) => {
         dispatch({ type: 'CLEAN_SQUARE', payload: newWall });
     }
 
-    const resetBoard = () => {
+    const resetBoard = (notification) => {
         dispatch({ type: 'GENERATE_GRIDS' });
+        if (notification) {
+            enqueueSnackbar(`Reiniciar tablero`, {
+                preventDuplicate: true,
+                anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                },
+                autoHideDuration: 3000,
+                TransitionComponent: Grow,
+            });
+        }
     }
 
     const generateRandom = () => {
-        resetBoard();
+        resetBoard(false);
 
         const { row, col } = state;
         dispatch({ type: 'GENERATE_RANDOM' });
@@ -91,11 +140,72 @@ const AppProvider = ({ children }) => {
 
         dispatch({ type: 'SET_EXIT', payload: { x: x1, y: y1 } });
 
+        enqueueSnackbar(`Generar laberinto de manera aleatoria`, {
+            preventDuplicate: true,
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'left',
+            },
+            autoHideDuration: 3000,
+            TransitionComponent: Grow,
+        });
     }
 
     const setSearch = () => {
-        dispatch({ type: 'SEARCH_PATH' });
+        if (state.entry && state.exit) {
+            dispatch({ type: 'SEARCH_PATH' });
+
+            if (state.moveCount !== -1) {
+                enqueueSnackbar(`Salida encontrada`, {
+                    preventDuplicate: true,
+                    anchorOrigin: {
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    },
+                    variant: "success",
+                    autoHideDuration: 3000,
+                    TransitionComponent: Grow,
+                });
+            } else {
+                enqueueSnackbar(`Salida no encontrada`, {
+                    preventDuplicate: true,
+                    anchorOrigin: {
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    },
+                    variant: "warning",
+                    autoHideDuration: 3000,
+                    TransitionComponent: Grow,
+                });
+            }
+
+        } else {
+            enqueueSnackbar(`No a seleccionado la entrada o salida`, {
+                preventDuplicate: true,
+                anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                },
+                variant: "error",
+                autoHideDuration: 3000,
+                TransitionComponent: Grow,
+            });
+        }
     }
+
+    const maxSizeNotification = (type, maxSize) => {
+        enqueueSnackbar(`Sin espacios ${type}. ${maxSize} Cuadros`, {
+            preventDuplicate: true,
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'left',
+            },
+            variant: "warning",
+            autoHideDuration: 3000,
+            TransitionComponent: Grow,
+        });
+    };
+
 
     return (
         <AppContext.Provider
@@ -113,7 +223,8 @@ const AppProvider = ({ children }) => {
                 cleanSquare,
                 resetBoard,
                 setSearch,
-                generateRandom
+                generateRandom,
+                maxSizeNotification,
             }}>{children}
         </AppContext.Provider>
     )

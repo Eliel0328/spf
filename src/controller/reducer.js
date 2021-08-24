@@ -167,7 +167,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             searchIsOpen: true,
-            moveCount: aux,
+            moveCount: aux.result,
             path: newWay,
         }
     }    

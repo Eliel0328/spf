@@ -1,7 +1,7 @@
 //  Componente para los sliders
 
 import { useState, useEffect } from "react";
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
@@ -17,8 +17,8 @@ const PrettoSlider = withStyles({
         height: 8,
     },
     thumb: {
-        height: 24,
-        width: 24,
+        height: 20,
+        width: 20,
         backgroundColor: '#fff',
         border: '2px solid currentColor',
         marginTop: -8,
@@ -32,18 +32,18 @@ const PrettoSlider = withStyles({
         left: 'calc(-50% + 4px)',
     },
     track: {
-        height: 4,
+        height: 2,
         borderRadius: 4,
     },
     rail: {
-        height: 5,
+        height: 3,
         borderRadius: 4,
     },
 })(Slider);
 
 //  Componentes en los que estan incrustrados los sliders para las filas y columnas
 const Sliders = () => {
-    const {resizeCol, resizeRow} = useGlobalContext();
+    const { resizeCol, resizeRow, maxSizeNotification } = useGlobalContext();
 
     //  Variables para asignar los valores a las filas y columnas
     const [row, setRow] = useState(5);
@@ -101,6 +101,7 @@ const Sliders = () => {
                 setCol(5);
             } else if (newValue > maxSize) {
                 setCol(maxSize);
+                maxSizeNotification('horizontales', maxSize);
             } else {
                 setCol(newValue);
             }
@@ -112,6 +113,7 @@ const Sliders = () => {
                 setRow(5);
             } else if (newValue > maxSize) {
                 setRow(maxSize);
+                maxSizeNotification('verticales', maxSize);
             } else {
                 setRow(newValue);
             }

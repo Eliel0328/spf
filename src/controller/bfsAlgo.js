@@ -52,7 +52,6 @@ const bfsAlgo = (maze, visited, path, start, end, n, m) => {
 
 const reconstructPath = (end, start, prev, n) => {
     let path = [];
-    let i = 0;
     let at = end;
     path.push(at);
 

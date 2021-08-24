@@ -108,7 +108,7 @@ const Buttons = () => {
         cleanButtonIsOpen, cleanIsOpen,
         resetBoard,
         searchIsOpen, setSearch,
-        generateRandom
+        generateRandom,
     } = useGlobalContext();
     return (
         <div className="btns">
@@ -152,7 +152,7 @@ const Buttons = () => {
 
                 <ResetButton variant="contained" color="primary"
                     className={classes.margin}
-                    onClick={resetBoard}>
+                    onClick={() => resetBoard(true)}>
                     Reiniciar
                 </ResetButton>
 

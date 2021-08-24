@@ -2,13 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { AppProvider } from './controller/context';
+import { SnackbarProvider } from 'notistack';
+
+
 
 ReactDOM.render(
-    <React.StrictMode>
+    <SnackbarProvider maxSnack={3}>
         <AppProvider>
             <App />
         </AppProvider>
-    </React.StrictMode>,
+    </SnackbarProvider>
+    ,
     document.getElementById('root')
 );
 

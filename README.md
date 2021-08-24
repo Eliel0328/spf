@@ -24,6 +24,6 @@ Pagina que genera un laberinto y usando un BFS busca la ruta más corta y muestr
 
 ## Original
 
-El original (del que me base) se puede encontrar en el siguiente enlace
-[Shortest Path Finder - Live demo](https://sadanandpai.github.io/shortest-path-finder/dist/)
-[Repositorio](https://github.com/sadanandpai/shortest-path-finder)
+El original (del que me base) se puede encontrar en los siguientes enlaces:
+-   [Shortest Path Finder - Live demo](https://sadanandpai.github.io/shortest-path-finder/dist/)
+-   [Repositorio](https://github.com/sadanandpai/shortest-path-finder)
