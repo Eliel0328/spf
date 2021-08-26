@@ -18,7 +18,7 @@ const initialState = {
     wallIsOpen: false,
     cleanIsOpen: false,
     searchIsOpen: false,
-    moveCount: 0
+    moveCount: null
 };
 
 const AppProvider = ({ children }) => {
@@ -36,6 +36,35 @@ const AppProvider = ({ children }) => {
     useEffect(() => {
         dispatch({ type: 'GENERATE_GRIDS' });
     }, [state.col, state.row]);
+
+    useEffect(() => {
+        if(state.moveCount == null){
+            return; 
+        }
+        if (state.moveCount !== -1) {
+            enqueueSnackbar(`Salida encontrada ${state.moveCount}`, {
+                preventDuplicate: true,
+                anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                },
+                variant: "success",
+                autoHideDuration: 3000,
+                TransitionComponent: Grow,
+            });
+        } else {
+            enqueueSnackbar(`Salida no encontrada`, {
+                preventDuplicate: true,
+                anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                },
+                variant: "warning",
+                autoHideDuration: 3000,
+                TransitionComponent: Grow,
+            });
+        }
+    }, [state.moveCount]);
 
     const entryButtonIsOpen = () => {
         dispatch({ type: 'ENTRY_IS_OPEN' });
@@ -154,31 +183,6 @@ const AppProvider = ({ children }) => {
     const setSearch = () => {
         if (state.entry && state.exit) {
             dispatch({ type: 'SEARCH_PATH' });
-
-            if (state.moveCount !== -1) {
-                enqueueSnackbar(`Salida encontrada`, {
-                    preventDuplicate: true,
-                    anchorOrigin: {
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    },
-                    variant: "success",
-                    autoHideDuration: 3000,
-                    TransitionComponent: Grow,
-                });
-            } else {
-                enqueueSnackbar(`Salida no encontrada`, {
-                    preventDuplicate: true,
-                    anchorOrigin: {
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    },
-                    variant: "warning",
-                    autoHideDuration: 3000,
-                    TransitionComponent: Grow,
-                });
-            }
-
         } else {
             enqueueSnackbar(`No a seleccionado la entrada o salida`, {
                 preventDuplicate: true,

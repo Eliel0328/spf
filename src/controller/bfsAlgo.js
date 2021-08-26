@@ -13,7 +13,7 @@ const bfsAlgo = (maze, visited, path, start, end, n, m) => {
 
     while (!(queue.lenght === 0)) {
         let current = queue.shift();
-        
+
         if (current === undefined) { break; }
         // console.log(current, current.x  === end.x && current.y === end.y)
         if (current.x === end.x && current.y === end.y) {
@@ -65,15 +65,18 @@ const reconstructPath = (end, start, prev, n) => {
 
 const board = (row, col, start, end, grid, visited, path) => {
     let result = bfsAlgo(grid, visited, path, start, end, row, col);
-    
+
     if (result !== -1) {
         let way = reconstructPath(end, start, path, result)
         return {
             result: result,
-            way:way
+            way: way
         }
     }
-    return result;
+    return {
+        result: -1,
+        way: null
+    };
 }
 
 export default board;
