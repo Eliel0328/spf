@@ -4,7 +4,7 @@ Pagina que genera un laberinto y usando un BFS busca la ruta más corta y muestr
 
 ## Prueba 
 ![Texto alternativo](/public/Ejemplo.png "Proyecto funcionando")
-[Prueba]()
+[Prueba](https://spf-visualizador.netlify.app/)
 
 ## Como correr una copia local
 - `git clone https://github.com/Eliel0328/spf.git`
